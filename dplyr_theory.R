@@ -1,5 +1,5 @@
 ##' % Data Wrangling: dplyr
-##' % [David Montaner](http://dmontaner.com)
+##' % [David Montaner](https://github.com/dmontaner-teaching/gelsk)
 ##' % `r .fecha`
 
 ##' This script introduces the `dplyr` R library for data handling.
