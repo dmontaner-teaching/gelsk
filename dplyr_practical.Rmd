@@ -1,0 +1,119 @@
+% Data Wrangling Practical: dplyr
+% [David Montaner](https://github.com/dmontaner-teaching/gelsk)
+% `r .fecha`
+
+
+```{r, echo = FALSE, results = "hide"}
+options (width = 90)
+```
+
+
+Some practical exercises using the `dplyr` R library.
+
+Clear your session before starting
+
+```{r}
+rm (list = ls ())
+```
+
+The following exercises will use the `mtcars` data set distributed with R (`datasets` library).
+[Here](https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/mtcars.html)
+you can find some information about the dataset.
+The same information can be found using the help in your R session `?mtcars`. 
+
+
+
+Exercise 1
+================================================================================
+
+Use `dplyr` to isolate the columns _mpg_ and _wt_.
+Plot them to explore its correlation. 
+
+```{r}
+library (dplyr)
+mtcars %>%
+    select (mpg, wt) %>% plot
+```
+
+Make the same plot but just for those cars with automatic transmission (_am = 0_)
+
+```{r}
+mtcars %>%
+    filter (am == 0) %>%
+    select (mpg, wt) %>% plot
+```
+
+Rename the columns using `dplyr` so that the labels
+_MilesGallon_ and _Weight_
+appear in the plot,
+
+```{r}
+mtcars %>%
+    filter (am == 0) %>%
+    select (mpg, wt) %>%
+    rename (MilesGallon = mpg, Weight = wt) %>%
+    plot
+```
+
+
+
+Exercise 2
+================================================================================
+
+Use `dplyr` to extract the rows in the `mtcars` data set relating _Merc_ cars.
+
+```{r}
+mtcars %>%
+    add_rownames %>%
+    filter (grepl ("Merc", rowname))
+    
+```
+
+
+Exercise 3
+================================================================================
+
+Use `dplyr` to derive a new variable PowerPerCylinder (hp/cyl) in the `mtcars` data set.
+Use a `boxplot` to explore its distribution.
+
+```{r}
+mtcars %>%
+    mutate (PowerPerCylinder = hp/cyl) %>%
+    select (PowerPerCylinder) %>% boxplot
+```	
+
+Use `dplyr` to reorder the rows of the `mtcars` so that you can easily find the car with higher PowerPerCylinder.
+
+```{r}
+library (tibble)
+
+mtcars %>%
+    ##add_rownames %>%
+    rownames_to_column %>%  ## function from `tibble`
+    mutate (PowerPerCylinder = hp/cyl) %>%
+    arrange (PowerPerCylinder) %>%
+    tail
+
+## alternative order
+
+mtcars %>%
+    ##add_rownames %>%
+    rownames_to_column %>%  ## function from `tibble`
+    mutate (PowerPerCylinder = hp/cyl) %>%
+    arrange ( - PowerPerCylinder) %>%
+    head
+
+```	
+
+Exercise 4
+================================================================================
+
+Use the `mtcars` data set to find out
+the mean consumption (mpg) of the cars with 3 and 4 gears respectively.
+
+```{r}
+mtcars %>%
+    filter ( 5> gear & gear > 2) %>%
+    group_by (gear) %>%
+    summarise (mean (mpg))
+```
