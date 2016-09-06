@@ -3,7 +3,7 @@ dplyr trainig session
 
 Some materials for an hour training session about the `R` library `dplyr`.
 
-I used them for an internal skill share session at [Genomics England](https://www.genomicsengland.co.uk/) 
+To be used in an internal _skill share session_ at [Genomics England](https://www.genomicsengland.co.uk/) 
 
 Theory
 ---------------------------------------
